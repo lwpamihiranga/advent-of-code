@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	input_file, _ := os.Open("input")
+	input_file, _ := os.Open("../input")
 
 	file_scanner := bufio.NewScanner(input_file)
 	file_scanner.Split(bufio.ScanLines)
