@@ -6,7 +6,20 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 )
+
+var numbers_map = map[string]string{
+	"one":   "1",
+	"two":   "2",
+	"three": "3",
+	"four":  "4",
+	"five":  "5",
+	"six":   "6",
+	"seven": "7",
+	"eight": "8",
+	"nine":  "9",
+}
 
 func main() {
 	input_file, _ := os.Open("../input")
@@ -22,21 +35,18 @@ func main() {
 
 	input_file.Close()
 
-	numbers_map := map[string]string{
-		"one":   "1",
-		"two":   "2",
-		"three": "3",
-		"four":  "4",
-		"five":  "5",
-		"six":   "6",
-		"seven": "7",
-		"eight": "8",
-		"nine":  "9",
-	}
-
 	var calibration_values []int
 
 	for _, line := range file_lines {
+		for {
+			var slice [][]int
+			line, slice = replaceStrToNumber(line)
+
+			if slice == nil {
+				break
+			}
+		}
+
 		var first_digit string
 		var last_digit string
 
@@ -63,55 +73,6 @@ func main() {
 			}
 		}
 
-		fmt.Println(line)
-		var index_slices [][]int
-
-		for key := range numbers_map {
-
-			r, _ := regexp.Compile(key)
-
-			result_slice := r.FindAllIndex([]byte(line), 100)
-
-			if len(result_slice) != 0 {
-				index_slices = append(index_slices, result_slice...)
-			}
-		}
-
-		fmt.Println(index_slices)
-
-		if len(index_slices) == 1 {
-			index := index_slices[0]
-			first_digit = line[index[0]:index[1]]
-			first_digit = numbers_map[first_digit]
-			last_digit = first_digit
-		} else if len(index_slices) > 1 {
-			var min_size []int
-			var max_size []int
-
-			min_size = index_slices[0]
-			max_size = index_slices[1]
-
-			for _, value := range index_slices {
-				if min_size[0] > value[0] {
-					min_size = value
-				}
-
-				if max_size[0] < value[0] {
-					max_size = value
-				}
-			}
-
-			first_digit = line[min_size[0]:min_size[1]]
-			first_digit = numbers_map[first_digit]
-
-			last_digit = line[max_size[0]:max_size[1]]
-			last_digit = numbers_map[last_digit]
-		} else if len(index_slices) == 0 {
-			continue
-		}
-
-		fmt.Println(first_digit, last_digit)
-
 		number, _ := strconv.Atoi(first_digit + last_digit)
 
 		calibration_values = append(calibration_values, number)
@@ -127,4 +88,49 @@ func main() {
 	}
 
 	fmt.Printf("Answer for day1: %d\n", answer)
+}
+
+func replaceStrToNumber(line string) (modified_line string, index_slices [][]int) {
+	// var index_slices [][]int
+
+	for key := range numbers_map {
+
+		r, _ := regexp.Compile(key)
+
+		result_slice := r.FindAllIndex([]byte(line), 100)
+
+		if len(result_slice) != 0 {
+			index_slices = append(index_slices, result_slice...)
+		}
+	}
+
+	if len(index_slices) >= 1 {
+		var min_size []int
+
+		min_size = index_slices[0]
+		for _, value := range index_slices {
+			if min_size[0] > value[0] {
+				min_size = value
+			}
+		}
+
+		text := line[min_size[0]:min_size[1]]
+
+		line = strings.Replace(line, text[:len(text)-1], numbers_map[text], 1)
+	}
+
+	index_slices = nil
+
+	for key := range numbers_map {
+
+		r, _ := regexp.Compile(key)
+
+		result_slice := r.FindAllIndex([]byte(line), 100)
+
+		if len(result_slice) != 0 {
+			index_slices = append(index_slices, result_slice...)
+		}
+	}
+
+	return line, index_slices
 }
