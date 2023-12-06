@@ -32,10 +32,10 @@ func main() {
 			_, err := strconv.Atoi(char_str)
 
 			if err != nil {
-				fmt.Println(err)
 				if index == len(line)-1 && last_digit == "" {
 					last_digit = first_digit
 				}
+
 				continue
 			}
 
