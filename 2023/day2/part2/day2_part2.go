@@ -31,13 +31,6 @@ func main() {
 
 	input_file.Close()
 
-	// total_cubes := game_hand{
-	// 	red:   12,
-	// 	green: 13,
-	// 	blue:  14,
-	// }
-
-	// var valid_game_ids []int
 	var min_hands []game_hand
 
 	for _, line := range file_lines {
@@ -47,21 +40,7 @@ func main() {
 
 		game := r.FindString(line)
 
-		// fmt.Println(game)
-
-		// game_split := strings.Split(game, "Game")[1]
-		// game_split = strings.TrimSpace(game_split)
-		// game_split = strings.Split(game_split, ":")[0]
-
-		// fmt.Println(game_split)
-		// fmt.Printf("%T\n", game_split)
-
-		// game_id, _ := strconv.Atoi(game_split)
-		// is_valid_game := true
 		var game_play_slice []game_hand
-
-		// fmt.Println(game_id)
-		// fmt.Printf("%T\n", game_id)
 
 		game_rounds_string := strings.Split(line, game)[1]
 		game_rounds_string = strings.TrimSpace(game_rounds_string)
@@ -104,30 +83,13 @@ func main() {
 
 			}
 
-			// fmt.Printf("%+v\n", game_play)
-
-			// is_valid_round := checkValidGamePlay(total_cubes, game_play)
-			// fmt.Println(is_valid_round)
-
 			game_play_slice = append(game_play_slice, game_play)
-
-			// if !is_valid_round {
-			// 	is_valid_game = false
-			// 	break
-			// }
 		}
-
-		// if is_valid_game {
-		// 	valid_game_ids = append(valid_game_ids, game_id)
-		// }
-		// fmt.Printf("%+v\n", game_play_slice)
 
 		min_hand := findMinReqHand(game_play_slice)
 
 		min_hands = append(min_hands, min_hand)
 	}
-
-	// fmt.Println(valid_game_ids)
 
 	var answer int
 
@@ -138,24 +100,6 @@ func main() {
 
 	fmt.Printf("Answer for day2: %d\n", answer)
 }
-
-// func checkValidGamePlay(total game_hand, round game_hand) (is_valid_game bool) {
-// 	is_valid_game = true
-
-// 	if total.red < round.red {
-// 		is_valid_game = false
-// 	}
-
-// 	if total.green < round.green {
-// 		is_valid_game = false
-// 	}
-
-// 	if total.blue < round.blue {
-// 		is_valid_game = false
-// 	}
-
-// 	return is_valid_game
-// }
 
 func findMinReqHand(hands []game_hand) (min_hand game_hand) {
 	min_hand.red = 0
