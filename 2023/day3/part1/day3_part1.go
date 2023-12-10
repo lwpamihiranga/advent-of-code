@@ -47,8 +47,6 @@ func main() {
 				continue
 			}
 
-			// fmt.Println("symbol", char_index, string(char))
-
 			adjacent_char_index_slice := struct {
 				before_index  int
 				current_index int
@@ -58,8 +56,6 @@ func main() {
 				char_index,
 				char_index + 1,
 			}
-
-			// fmt.Printf("%+v\n", adjacent_char_index_slice)
 
 			if before_line != "" {
 				result_left_before_line := ""
@@ -136,23 +132,8 @@ func main() {
 					valid_part_numbers = append(valid_part_numbers, result_right)
 				}
 			}
-
-			// fmt.Println("result left", result_left)
-			// fmt.Println("result middle", result_middle)
-			// fmt.Println("result right", result_right)
-
 		}
-
-		// fmt.Println(before_line)
-		// fmt.Println(line_index, line_to_check)
-		// fmt.Println(after_line)
-
-		// if line_index == 10 {
-		// 	break
-		// }
 	}
-
-	// fmt.Printf("%+v\n", valid_part_numbers)
 
 	var answer int
 
