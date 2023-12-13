@@ -8,6 +8,13 @@ import (
 	"strings"
 )
 
+type range_desc struct {
+	s_start int
+	s_end   int
+	d_start int
+	d_end   int
+}
+
 func main() {
 	input_file, _ := os.Open("../input")
 
@@ -22,14 +29,14 @@ func main() {
 
 	input_file.Close()
 
-	var seeds_map = map[int]int{}
-	var seed_to_soil_map = map[int]int{}
-	var soil_to_fertilizer_map = map[int]int{}
-	var fertilizer_to_water_map = map[int]int{}
-	var water_to_light_map = map[int]int{}
-	var light_to_temperature_map = map[int]int{}
-	var temperature_to_humidity_map = map[int]int{}
-	var humidity_to_location_map = map[int]int{}
+	var seeds_slice []int
+	var seed_to_soil_slice []range_desc
+	var soil_to_fertilizer_slice []range_desc
+	var fertilizer_to_water_slice []range_desc
+	var water_to_light_slice []range_desc
+	var light_to_temperature_slice []range_desc
+	var temperature_to_humidity_slice []range_desc
+	var humidity_to_location_slice []range_desc
 
 	for index, line := range file_lines {
 		if index == 0 {
@@ -37,7 +44,8 @@ func main() {
 			seeds_string = strings.TrimSpace(seeds_string)
 			for _, seed := range strings.Fields(seeds_string) {
 				seed_val, _ := strconv.Atoi(seed)
-				seeds_map[seed_val] = seed_val
+				// seeds_map[seed_val] = seed_val
+				seeds_slice = append(seeds_slice, seed_val)
 			}
 		}
 
@@ -51,7 +59,18 @@ func main() {
 					break
 				}
 
-				seed_to_soil_map = generateMap(seed_to_soil_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
+
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				seed_to_soil_slice = append(seed_to_soil_slice, value)
 			}
 		}
 
@@ -65,8 +84,18 @@ func main() {
 					break
 				}
 
-				soil_to_fertilizer_map = generateMap(soil_to_fertilizer_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
 
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				soil_to_fertilizer_slice = append(soil_to_fertilizer_slice, value)
 			}
 		}
 
@@ -80,8 +109,18 @@ func main() {
 					break
 				}
 
-				fertilizer_to_water_map = generateMap(fertilizer_to_water_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
 
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				fertilizer_to_water_slice = append(fertilizer_to_water_slice, value)
 			}
 		}
 
@@ -95,7 +134,18 @@ func main() {
 					break
 				}
 
-				water_to_light_map = generateMap(water_to_light_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
+
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				water_to_light_slice = append(water_to_light_slice, value)
 			}
 		}
 
@@ -109,7 +159,18 @@ func main() {
 					break
 				}
 
-				light_to_temperature_map = generateMap(light_to_temperature_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
+
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				light_to_temperature_slice = append(light_to_temperature_slice, value)
 			}
 		}
 
@@ -123,7 +184,18 @@ func main() {
 					break
 				}
 
-				temperature_to_humidity_map = generateMap(temperature_to_humidity_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
+
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				temperature_to_humidity_slice = append(temperature_to_humidity_slice, value)
 			}
 		}
 
@@ -141,68 +213,34 @@ func main() {
 					break
 				}
 
-				humidity_to_location_map = generateMap(humidity_to_location_map, numbers_slice)
+				dest_range_start, _ := strconv.Atoi(numbers_slice[0])
+				source_range_start, _ := strconv.Atoi(numbers_slice[1])
+				range_value, _ := strconv.Atoi(numbers_slice[2])
+
+				value := range_desc{
+					s_start: source_range_start,
+					s_end:   source_range_start + range_value - 1,
+					d_start: dest_range_start,
+					d_end:   dest_range_start + range_value - 1,
+				}
+
+				humidity_to_location_slice = append(humidity_to_location_slice, value)
 			}
 		}
 	}
 
-	// fmt.Printf("seeds_map: %+v\n", seeds_map)
-	// fmt.Printf("seed_to_soil_map: %+v\n", seed_to_soil_map)
-	// fmt.Printf("soil_to_fertilizer_map: %+v\n", soil_to_fertilizer_map)
-	// fmt.Printf("fertilizer_to_water_map: %+v\n", fertilizer_to_water_map)
-	// fmt.Printf("water_to_light_map: %+v\n", water_to_light_map)
-	// fmt.Printf("light_to_temperature_map: %+v\n", light_to_temperature_map)
-	// fmt.Printf("temperature_to_humidity_map: %+v\n", temperature_to_humidity_map)
-	// fmt.Printf("humidity_to_location_map: %+v\n", humidity_to_location_map)
-
 	lowest_location := 0
 
-	for seed_val := range seeds_map {
-		index := 0
+	for index, seed_val := range seeds_slice {
+		soil_value := findDestinationValue(seed_val, seed_to_soil_slice)
+		fertilizer_val := findDestinationValue(soil_value, soil_to_fertilizer_slice)
+		water_val := findDestinationValue(fertilizer_val, fertilizer_to_water_slice)
+		light_val := findDestinationValue(water_val, water_to_light_slice)
+		temp_val := findDestinationValue(light_val, light_to_temperature_slice)
+		humidity_val := findDestinationValue(temp_val, temperature_to_humidity_slice)
+		location_val := findDestinationValue(humidity_val, humidity_to_location_slice)
 
-		soil_val, ok := seed_to_soil_map[seed_val]
-
-		if !ok {
-			soil_val = seed_val
-		}
-
-		fertilizer_val, ok := soil_to_fertilizer_map[soil_val]
-
-		if !ok {
-			fertilizer_val = soil_val
-		}
-
-		water_val, ok := fertilizer_to_water_map[fertilizer_val]
-
-		if !ok {
-			water_val = fertilizer_val
-		}
-
-		light_val, ok := water_to_light_map[water_val]
-
-		if !ok {
-			light_val = water_val
-		}
-
-		temp_val, ok := light_to_temperature_map[light_val]
-
-		if !ok {
-			temp_val = light_val
-		}
-
-		humidity_val, ok := temperature_to_humidity_map[temp_val]
-
-		if !ok {
-			humidity_val = temp_val
-		}
-
-		location_val, ok := humidity_to_location_map[humidity_val]
-
-		if !ok {
-			location_val = humidity_val
-		}
-
-		fmt.Println(seed_val, soil_val, fertilizer_val, water_val, light_val, temp_val, humidity_val, location_val)
+		// fmt.Println(seed_val, soil_value, fertilizer_val, water_val, light_val, temp_val, humidity_val, location_val)
 
 		if index == 0 {
 			lowest_location = location_val
@@ -213,31 +251,17 @@ func main() {
 		index += 1
 	}
 
-	fmt.Println("Lowerst Location: ", lowest_location)
+	fmt.Printf("Answer for day5: %d\n", lowest_location)
 }
 
-// func generateMap(map_to_update *map[int]int, numbers_slice []string) (generated_map map[int]int) {
-// 	generated_map = map[int]int{}
-
-// 	dest_range_start, _ := strconv.Atoi(numbers_slice[0])
-// 	source_range_start, _ := strconv.Atoi(numbers_slice[1])
-// 	range_value, _ := strconv.Atoi(numbers_slice[2])
-
-// 	for i := 0; i < range_value; i++ {
-// 		generated_map[source_range_start+i] = dest_range_start + i
-// 	}
-
-// 	return generated_map
-// }
-
-func generateMap(map_to_update map[int]int, numbers_slice []string) map[int]int {
-	dest_range_start, _ := strconv.Atoi(numbers_slice[0])
-	source_range_start, _ := strconv.Atoi(numbers_slice[1])
-	range_value, _ := strconv.Atoi(numbers_slice[2])
-
-	for i := 0; i < range_value; i++ {
-		map_to_update[source_range_start+i] = dest_range_start + i
+func findDestinationValue(source_value int, range_desc_slice []range_desc) (dest_value int) {
+	dest_value = source_value
+	for _, item := range range_desc_slice {
+		if source_value >= item.s_start && source_value <= item.s_end {
+			dest_value = item.d_start + (source_value - item.s_start)
+			break
+		}
 	}
 
-	return map_to_update
+	return dest_value
 }
