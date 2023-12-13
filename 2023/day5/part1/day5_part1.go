@@ -51,16 +51,6 @@ func main() {
 					break
 				}
 
-				// dest_range_start, _ := strconv.Atoi(numbers_slice[0])
-				// source_range_start, _ := strconv.Atoi(numbers_slice[1])
-				// range_value, _ := strconv.Atoi(numbers_slice[2])
-
-				// fmt.Println(dest_range_start, source_range_start, range_value)
-
-				// for i := 0; i < range_value; i++ {
-				// 	seed_to_soil_map[source_range_start+i] = dest_range_start + i
-				// }
-				// seed_to_soil_map = generateMap(numbers_slice)
 				seed_to_soil_map = generateMap(seed_to_soil_map, numbers_slice)
 			}
 		}
@@ -75,13 +65,6 @@ func main() {
 					break
 				}
 
-				// dest_range_start, _ := strconv.Atoi(numbers_slice[0])
-				// source_range_start, _ := strconv.Atoi(numbers_slice[1])
-				// range_value, _ := strconv.Atoi(numbers_slice[2])
-
-				// fmt.Println(dest_range_start, source_range_start, range_value)
-
-				// soil_to_fertilizer_map = generateMap(numbers_slice)
 				soil_to_fertilizer_map = generateMap(soil_to_fertilizer_map, numbers_slice)
 
 			}
@@ -97,7 +80,6 @@ func main() {
 					break
 				}
 
-				// fertilizer_to_water_map = generateMap(numbers_slice)
 				fertilizer_to_water_map = generateMap(fertilizer_to_water_map, numbers_slice)
 
 			}
@@ -113,7 +95,6 @@ func main() {
 					break
 				}
 
-				// water_to_light_map = generateMap(numbers_slice)
 				water_to_light_map = generateMap(water_to_light_map, numbers_slice)
 			}
 		}
@@ -128,7 +109,6 @@ func main() {
 					break
 				}
 
-				// light_to_temperature_map = generateMap(numbers_slice)
 				light_to_temperature_map = generateMap(light_to_temperature_map, numbers_slice)
 			}
 		}
@@ -143,15 +123,12 @@ func main() {
 					break
 				}
 
-				// temperature_to_humidity_map = generateMap(numbers_slice)
 				temperature_to_humidity_map = generateMap(temperature_to_humidity_map, numbers_slice)
 			}
 		}
 
 		if line == "humidity-to-location map:" {
 			for i := 1; ; i++ {
-				// fmt.Println(index + i)
-
 				if index+i >= len(file_lines) {
 					break
 				}
@@ -164,7 +141,6 @@ func main() {
 					break
 				}
 
-				// humidity_to_location_map = generateMap(numbers_slice)
 				humidity_to_location_map = generateMap(humidity_to_location_map, numbers_slice)
 			}
 		}
